@@ -13,8 +13,8 @@ const stats_fn = require('./inc/stats_fn.js')
 
 async function start() {
     try {
-        await tryLock(config.lockPort)
         config = await getConfig()
+        await tryLock(config.lockPort)
         
         let server = await connectSocketIOServer(config)
 
