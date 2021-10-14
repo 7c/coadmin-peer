@@ -1,6 +1,7 @@
 const os = require('os')
 // cp { execSync } = require('child_process');
 const lsbRelease = require('./lsb_release.js')
+const vars = require('./vars.js')
 
 let current_lsbRelease = false
 
@@ -11,9 +12,9 @@ module.exports = (callback) => {
     var mem_external=Math.round(process.memoryUsage().external / 1024 / 1024)
 
     if (!current_lsbRelease) current_lsbRelease=lsbRelease()
-
     
     let data = {
+    
         mem_heapUsed,
         mem_heapTotal,
         mem_rss,
@@ -30,6 +31,6 @@ module.exports = (callback) => {
         lsbRelease:current_lsbRelease
     }
     
-    return callback(data)
+    return callback(vars.socketio.clientid,data)
 }
 
