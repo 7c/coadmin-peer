@@ -22,6 +22,7 @@ function getConfig() {
 
 
 var config = {
+    lockPort: 56278,
     myFolder: path.join('/var/coadmin'),
     socketserver: 'https://coadmin.org',
 }

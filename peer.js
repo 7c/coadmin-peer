@@ -1,7 +1,8 @@
+const {tryLock} = require('tcp-mutex')
 const argv = require('minimist')(process.argv.slice(2))
 const chalk = require('chalk')
 const { getConfig } = require('./config.js')
-const { wait } = require('mybase')
+const { wait, softexit } = require('mybase')
 const os = require('os')
 const { connectSocketIOServer } = require('./inc/shared.js')
 
@@ -12,6 +13,7 @@ const stats_fn = require('./inc/stats_fn.js')
 
 async function start() {
     try {
+        await tryLock(config.lockPort)
         config = await getConfig()
         
         let server = await connectSocketIOServer(config)
@@ -30,7 +32,8 @@ async function start() {
 
         // process.exit(0)
     } catch (err) {
-        console.log(chalk.red(err))
+        console.error(err)
+        softexit("error",60)
     }
 }
 
