@@ -18,11 +18,15 @@ async function start() {
 
         server.on('stats',stats_fn)
         
-        if (argv.bootstrap && server.authenticated)  {
+        if (argv.bootstrap) {
+            while(!server.authenticated) {
+                await wait(1)
+            }
             console.log(chalk.green(`bootstrapped`))
             await wait(1)
             process.exit(0)
         }
+        
 
         // process.exit(0)
     } catch (err) {
