@@ -1,0 +1,25 @@
+{
+  "name": "coadmin-peer",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.vpn1.com:root/coadmin-peer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bizzby-lsb-release": "^0.2.0",
+    "chalk": "^4.1.2",
+    "debug": "^4.3.2",
+    "minimist": "^1.2.5",
+    "mybase": "^1.0.27",
+    "public-ip": "^4.0.4",
+    "socket.io-client": "^4.3.0",
+    "telegraf-metrix-node": "^1.1.6"
+  }
+}
