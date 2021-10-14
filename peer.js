@@ -33,7 +33,7 @@ async function start() {
         // process.exit(0)
     } catch (err) {
         console.error(err)
-        softexit("error",60)
+        softexit("error",600)
     }
 }
 

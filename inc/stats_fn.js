@@ -5,19 +5,25 @@ const vars = require('./vars.js')
 const package = require('./../package.json')
 
 let current_lsbRelease = false
+const totalMemory = Math.round(os.totalmem() / 1024 / 1024)
+
+
 
 module.exports = (callback) => {
+    const freeMemory = Math.round(os.freemem() / 1024 / 1024)
+
     var mem_heapUsed=Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
     var mem_heapTotal=Math.round(process.memoryUsage().heapTotal / 1024 / 1024)
     var mem_rss=Math.round(process.memoryUsage().rss / 1024 / 1024)
     var mem_external=Math.round(process.memoryUsage().external / 1024 / 1024)
-
+    
     if (!current_lsbRelease) current_lsbRelease=lsbRelease()
     
     let data = {
         mem_heapUsed,
         mem_heapTotal,
         mem_rss,
+        freeMemory,totalMemory,
         mem_external,
         hostname: os.hostname(),
         kernel_release:os.release(),
