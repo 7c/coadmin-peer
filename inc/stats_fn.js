@@ -2,6 +2,7 @@ const os = require('os')
 // cp { execSync } = require('child_process');
 const lsbRelease = require('./lsb_release.js')
 const vars = require('./vars.js')
+const package = require('./../package.json')
 
 let current_lsbRelease = false
 
@@ -14,7 +15,6 @@ module.exports = (callback) => {
     if (!current_lsbRelease) current_lsbRelease=lsbRelease()
     
     let data = {
-    
         mem_heapUsed,
         mem_heapTotal,
         mem_rss,
@@ -28,9 +28,10 @@ module.exports = (callback) => {
         time:Date.now(),
         cpus:os.cpus(),
         interfaces:os.networkInterfaces(),
-        lsbRelease:current_lsbRelease
+        lsbRelease:current_lsbRelease,
+        peerVersion:package.version
     }
-    
+    console.log(data)
     return callback(vars.socketio.clientid,data)
 }
 
