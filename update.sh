@@ -14,5 +14,5 @@ cd "$CWD" || exit
 
 ## for now update every hour ro latest peer version
 npm pull
-npm i
+npm install 
 
