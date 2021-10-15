@@ -1,6 +1,7 @@
 #!/bin/bash
 [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
-CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+CWD="/opt/coadmin-peer"
 
 hostname | egrep '^coadmin.org$' && {
     echo "we should not run on main server, since this is dev"
