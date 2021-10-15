@@ -49,7 +49,7 @@ function storeConfig(config,key,value) {
     })
 }
 
-function serverAuthenticate(config,server,silent) {
+function serverAuthenticate(config,server,silent=true) {
     return new Promise(async function (resolve,reject) {
         let tokenPath = path.join(config.myFolder,'token')
         let token = '-'

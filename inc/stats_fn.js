@@ -1,3 +1,4 @@
+const chalk = require('chalk')
 const os = require('os')
 // cp { execSync } = require('child_process');
 const lsbRelease = require('./lsb_release.js')
@@ -23,21 +24,14 @@ module.exports = (callback) => {
         mem_heapUsed,
         mem_heapTotal,
         mem_rss,
-        freeMemory,totalMemory,
+        freeMemory,
         mem_external,
         hostname: os.hostname(),
-        kernel_release:os.release(),
-        os_type:os.type(),
         uptime:os.uptime(),
-        platform: os.platform(),
         loadavrg:os.loadavg(),
         time:Date.now(),
-        cpus:os.cpus(),
-        interfaces:os.networkInterfaces(),
-        lsbRelease:current_lsbRelease,
-        peerVersion:package.version
     }
-    console.log(data)
+    console.log(chalk.yellow.inverse(`stats`),data)
     return callback(vars.socketio.clientid,data)
 }
 
