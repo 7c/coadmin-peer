@@ -4,13 +4,15 @@ const os = require('os')
 const lsbRelease = require('./lsb_release.js')
 const vars = require('./vars.js')
 const package = require('./../package.json')
+const { isDevServer } = require('./shared.js')
 
 let current_lsbRelease = false
-const totalMemory = Math.round(os.totalmem() / 1024 / 1024)
 
 
 
-module.exports = (callback) => {
+
+module.exports = function (clientId,callback)  {
+    console.log(chalk.inverse('stats_fn'),clientId)
     const freeMemory = Math.round(os.freemem() / 1024 / 1024)
 
     var mem_heapUsed=Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
@@ -31,7 +33,8 @@ module.exports = (callback) => {
         loadavrg:os.loadavg(),
         time:Date.now(),
     }
-    console.log(chalk.yellow.inverse(`stats`),data)
+    
+    if (isDevServer()) console.log(chalk.yellow.inverse(`stats`),clientId,data)
     return callback(vars.socketio.clientid,data)
 }
 

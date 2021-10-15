@@ -22,8 +22,6 @@ async function start() {
         server.on('startstats',startstats_fn) // will be asked once auth
         server.on('stats',stats_fn)           // will be asked periodically
         
-        
-        
         if (argv.bootstrap) {
             while(!server.authenticated) {
                 await wait(1)

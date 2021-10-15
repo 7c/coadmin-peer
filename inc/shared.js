@@ -19,6 +19,10 @@ function bi(fields, tags = {}) {
 }
 
 
+function isDevServer() {
+    return os.hostname()==='coadmin.org'
+}
+
 function delConfig(config,key) {
     return new Promise(async function (resolve,reject) {
         let configPath = path.join(config.myFolder,key)
@@ -67,6 +71,7 @@ function serverAuthenticate(config,server,silent=true) {
         let hostname = os.hostname()
         if (argv.ip4) ip4=argv.ip4 // debugging
         let auth_data = {ip4,token,hostname}
+        if (isDevServer()) auth_data.devserver = true
         if (!silent) console.log(`>auth`,auth_data)
         server.emit('auth',auth_data,async function (response) {
             if (!silent) console.log(`response>`,response)
@@ -136,5 +141,6 @@ function connectSocketIOServer(config,silent=false) {
 module.exports = {
     connectSocketIOServer,
     delConfig,
-    storeConfig
+    storeConfig,
+    isDevServer
 }
