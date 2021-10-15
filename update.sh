@@ -7,7 +7,7 @@ hostname | egrep '^coadmin.org$' && {
     exit 0
 }
 
-test -e /opt/coadmin-peer-dev || exit
+test -e /opt/coadmin-peer-dev && exit
 
 ## install ourself into crontab
 test -h "/etc/cron.hourly/coadmin-update" || ln -s "$CWD/update.sh" /etc/cron.hourly/coadmin-update
@@ -19,3 +19,4 @@ git stash
 git pull
 npm install 
 
+echo "Done"
