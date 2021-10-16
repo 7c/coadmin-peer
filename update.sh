@@ -15,6 +15,17 @@ test -h "/etc/cron.hourly/coadmin-update" || ln -s "$CWD/update.sh" /etc/cron.ho
 
 cd "$CWD" || exit
 
+test -d /etc/profile.d && {
+tee /etc/profile.d/coadmin-peer.sh <<EOF
+YELLOW="\033[0;33m"
+CLEAR="\033[0m"
+yellow() { echo -en "\${YELLOW}"\$@"\${CLEAR}"; }
+
+yellow "> coadmin peer is installed"
+echo ""
+EOF
+}
+
 ## for now update every hour ro latest peer version
 git stash
 git pull
