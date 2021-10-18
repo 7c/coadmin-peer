@@ -8,8 +8,8 @@ CWD="/opt/coadmin-peer"
 pm2check() {
     # usage <name> <folder> <filename> <parameters>
     # example: pm2check resolver /opt/ns3-resolver/ resolver.js ""
-    pm2 describe "$1" >/dev/null || { cd "$2" && pm2 start --log-date-format "YYYY-MM-DD HH:mm:ss" "$3" --name "$1" -- "$4" && pm2 save; sl "$1 has been started"; }
-    pm2 describe "$1" | egrep -q "status.*(errored|stopped)" && { pm2 restart "$1"; sl "$1 has been re-started"; }
+    pm2 describe "$1" >/dev/null || { cd "$2" && pm2 start --log-date-format "YYYY-MM-DD HH:mm:ss" "$3" --name "$1" -- "$4" && pm2 save; }
+    pm2 describe "$1" | egrep -q "status.*(errored|stopped)" && { pm2 restart "$1"; }
 }
 
 
