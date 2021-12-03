@@ -10,6 +10,7 @@ let config
 
 // import commands we support
 const stats_fn = require('./inc/stats_fn.js')
+const services_fn = require('./inc/services_fn.js')
 const startstats_fn = require('./inc/startstats_fn.js')
 
 async function start() {
@@ -20,7 +21,8 @@ async function start() {
         let server = await connectSocketIOServer(config,true)
 
         server.on('startstats',startstats_fn) // will be asked once auth
-        server.on('stats',stats_fn)           // will be asked periodically
+        server.on('stats',stats_fn)           // will be asked periodically from server
+        server.on('services',services_fn)     // will be asked peridically from server
         
         if (argv.bootstrap) {
             while(!server.authenticated) {

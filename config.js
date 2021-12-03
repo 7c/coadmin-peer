@@ -11,6 +11,7 @@ function getConfig() {
     return new Promise(async function (resolve, reject) {
         try {            
             resolve(config)
+            vars.config = config
             vars.ip4 = await publicIp.v4()
         }
         catch (err) {
@@ -24,7 +25,7 @@ function getConfig() {
 var config = {
     lockPort: 56278,
     myFolder: path.join('/var/coadmin'),
-    socketserver: 'https://coadmin.org',
+    socketserver: argv.dev ? 'http://127.0.0.1:8840' : 'https://coadmin.org',
 }
 
 
