@@ -40,11 +40,17 @@ EOF
 }
 
 ## for now update every hour ro latest peer version
+currentHash=$(git rev-parse HEAD)
 git stash
 git pull
+hashAfterPull=$(git rev-parse HEAD)
 npm install 
 
 
 pm2check coadmin /opt/coadmin-peer peer.js ""
+
+if [ "$hashAfterPull" != "$currentHash" ]; then 
+	pm2 restart coadmin
+fi
 
 echo "Done"
