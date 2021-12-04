@@ -1,7 +1,13 @@
 #!/bin/bash
-[ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
+
+mainpid=$$
+(sleep 2m; kill $mainpid) &
+watchdogpid=$!
+
+# [ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -en "$0" "$0" "$@" || :
 # CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CWD="/opt/coadmin-peer"
+
 
 
 
@@ -16,6 +22,7 @@ pm2check() {
 
 hostname | egrep '^coadmin.org$' && {
     echo "we should not run on main server, since this is dev"
+    kill -9 $watchdogpid
     exit 0
 }
 
@@ -54,3 +61,4 @@ if [ "$hashAfterPull" != "$currentHash" ]; then
 fi
 
 echo "Done"
+kill -9 $watchdogpid
