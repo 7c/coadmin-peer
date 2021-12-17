@@ -12,6 +12,7 @@ let config
 const stats_fn = require('./inc/stats_fn.js')
 const services_fn = require('./inc/services_fn.js')
 const startstats_fn = require('./inc/startstats_fn.js')
+const tests_fn = require('./inc/tests_fn.js')
 
 async function start() {
     try {
@@ -23,12 +24,12 @@ async function start() {
         server.on('startstats',startstats_fn) // will be asked once auth
         server.on('stats',stats_fn)           // will be asked periodically from server
         server.on('services',services_fn)     // will be asked peridically from server
+        server.on('tests',tests_fn)           // will be asked peridically from server
         
         if (argv.bootstrap) {
             while(!server.authenticated) {
                 await wait(1)
             }
-                
             console.log(chalk.green(`bootstrapped`))
             await wait(1)
             process.exit(0)

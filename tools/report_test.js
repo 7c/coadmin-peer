@@ -7,12 +7,15 @@ const { config } = require('../config')
 const argv = require('minimist')(process.argv.slice(2))
 
 /*
-    tool to report tests from bash scripts
+    tool to report tests from bash scripts (mostly)
         --project: String
         --group: String
         --id: String
         --result: ['ok','error','warning']
         --details: String
+    
+    this script generates a .json file which then will be read from coadmin-peer
+    to transfer to coadmin-server to be presented in mysql
 */
 
 function showUsage() {
