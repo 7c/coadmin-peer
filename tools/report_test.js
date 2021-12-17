@@ -13,6 +13,8 @@ const argv = require('minimist')(process.argv.slice(2))
         --id: String
         --result: ['ok','error','warning']
         --details: String
+
+        --verbose
     
     this script generates a .json file which then will be read from coadmin-peer
     to transfer to coadmin-server to be presented in mysql
@@ -25,6 +27,8 @@ function showUsage() {
     console.log(`\t--id${chalk.gray(':String')}`)
     console.log(`\t--result:${chalk.gray("['ok','error','warning']")}`)
     console.log(`\t--details${chalk.gray(':String')}`)
+    console.log(``)
+    console.log(`\t--verbose`)
     process.exit(1)
 }
 
@@ -49,7 +53,7 @@ async function start() {
         if (fs.existsSync(config.myFolder)) {
             try {
                 fs.writeFileSync(full_filename,JSON.stringify(file_content))
-                console.log(full_filename)
+                if (argv.verbose) console.log(full_filename)
                 process.exit(0)
             }catch(err) {
                 console.error(err)
