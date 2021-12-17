@@ -1,6 +1,6 @@
 {
   "name": "coadmin-peer",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.2",
+    "crc-32": "^1.2.0",
     "debug": "^4.3.2",
     "minimist": "^1.2.5",
     "mybase": "^1.0.27",

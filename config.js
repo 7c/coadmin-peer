@@ -57,5 +57,5 @@ if (!fs.existsSync(config.myFolder)) {
 }
 
 module.exports = {
-    getConfig
+    getConfig,config
 }
