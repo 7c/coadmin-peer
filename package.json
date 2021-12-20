@@ -1,6 +1,6 @@
 {
   "name": "coadmin-peer",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,7 @@
     "minimist": "^1.2.5",
     "mybase": "^1.0.27",
     "public-ip": "^4.0.4",
+    "semver": "^7.3.5",
     "socket.io-client": "^4.3.0",
     "tcp-mutex": "^1.0.1",
     "telegraf-metrix-node": "^1.1.6"

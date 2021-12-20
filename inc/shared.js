@@ -3,6 +3,7 @@ const fs = require('fs')
 const os = require('os')
 const chalk = require('chalk')
 const { isLocal,wait } = require('mybase')
+const package = require('./../package.json')
 const debug = require('debug')('shared')
 const Metrix = require("telegraf-metrix-node")
 const metrix = new Metrix("udp://127.0.0.1:8094", 'coadmin_peer')
@@ -70,7 +71,7 @@ function serverAuthenticate(config,server,silent=true) {
         if (argv.token) token = argv.token
         let hostname = os.hostname()
         if (argv.ip4) ip4=argv.ip4 // debugging
-        let auth_data = {ip4,token,hostname}
+        let auth_data = {ip4,token,hostname,version:package.version}
         if (isDevServer()) auth_data.devserver = true
         if (!silent) console.log(`>auth`,auth_data)
         server.emit('auth',auth_data,async function (response) {

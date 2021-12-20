@@ -46,4 +46,7 @@ ensure_processRunning vnstatd "vnstatd is running"
 ensure_processRunning zabbix_agentd "zabbix_agentd is running"
 isInstalled puppet-agent && ensure_processRunning puppet "puppet agent is running"
 
+## check puppet agent run status
+# /opt/puppetlabs/puppet/cache/state/last_run_summary.yaml
+
 bye
