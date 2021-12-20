@@ -1,3 +1,4 @@
+const package = require('./package.json')
 const {tryLock} = require('tcp-mutex')
 const argv = require('minimist')(process.argv.slice(2))
 const chalk = require('chalk')
@@ -18,7 +19,7 @@ const autoupdate_fn = require('./inc/autoupdate_fn.js')
 async function start() {
     try {
         config = await getConfig()
-        console.log(`Started`)
+        console.log(`Started ${package.version}`)
         if (!argv.bootstrap) await tryLock(config.lockPort)
         
         let server = await connectSocketIOServer(config,true)
