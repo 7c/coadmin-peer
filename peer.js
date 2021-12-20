@@ -18,6 +18,7 @@ const autoupdate_fn = require('./inc/autoupdate_fn.js')
 async function start() {
     try {
         config = await getConfig()
+        console.log(`Started`)
         if (!argv.bootstrap) await tryLock(config.lockPort)
         
         let server = await connectSocketIOServer(config,true)
