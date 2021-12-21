@@ -29,6 +29,9 @@ hostname | egrep '^coadmin.org$' && {
 test -e /opt/coadmin-peer-dev && exit
 
 
+## git configuration is required for updates
+git config  --global user.email || git config --global user.email "you@example.com"
+git config  --global user.name || git config --global user.name "root"
 
 ## install ourself into crontab
 test -h "/etc/cron.hourly/coadmin-update" || ln -s "$CWD/update.sh" /etc/cron.hourly/coadmin-update
