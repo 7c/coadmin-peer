@@ -1,4 +1,7 @@
 #!/bin/bash
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source "$CWD/inc/shared.sh"
+
 mainpid=$$
 (sleep 1m; kill $mainpid) &
 watchdogpid=$!
@@ -14,14 +17,6 @@ report_test_ok() {
     test -e /opt/coadmin-peer/tools/report_test.js && {
         node /opt/coadmin-peer/tools/report_test.js --project 'system' --group 'system' --id "$id" --result "ok" --details "$details"
     }
-}
-
-isInstalled() {
-    dpkg -s $1 2>&1 | grep -q 'is not installed and no information'  && return 1
-    dpkg -s $1 2>&1 | grep Status | grep -q 'not-installed'          && return 2
-    dpkg -s $1 2>&1 | grep Status | grep -q 'half-installed'         && return 3
-    dpkg -s $1 2>&1 | grep Status | grep -q 'half-configured'         && return 4
-    return 0
 }
 
 report_test_error() {
@@ -52,9 +47,9 @@ isInstalled puppet-agent && ensure_processRunning puppet "puppet agent is runnin
 
 ## detect puppet agent fail scenarios
 isInstalled puppet-agent && {
-    statedir=$(puppet agent --configprint statedir)
-
-
+    statedir='/opt/puppetlabs/puppet/cache/state'
+    test -d || statedir=$(puppet agent --configprint statedir)
+    logg "puppet statedir=$statedir"
     ## sync did not run at all
     report_test_ok "recent puppet sync succeed"
     grep -A 10 event "$statedir/last_run_summary.yaml" | grep 'total: 0$' -q && report_test_error "recent puppet sync succeed"
