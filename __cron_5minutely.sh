@@ -53,8 +53,13 @@ isInstalled puppet-agent && ensure_processRunning puppet "puppet agent is runnin
 ## detect puppet agent fail scenarios
 isInstalled puppet-agent && {
     statedir=$(puppet agent --configprint statedir)
+
+
+    ## sync did not run at all
     report_test_ok "recent puppet sync succeed"
     grep -A 10 event "$statedir/last_run_summary.yaml" | grep 'total: 0$' -q && report_test_error "recent puppet sync succeed"
+    ## sync run with errors
+    grep -A 10 event "$statedir/last_run_summary.yaml" | grep 'failure:' | grep -v 'failure: 0' -q && report_test_error "recent puppet sync succeed"
 }
 
 bye
