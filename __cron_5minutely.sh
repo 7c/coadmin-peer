@@ -29,6 +29,7 @@ report_test_error() {
 }
 
 ensure_processRunning() {
+    report_test_ok "$2"
     if pgrep "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
 }
 
