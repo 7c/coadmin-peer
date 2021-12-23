@@ -42,15 +42,15 @@ report_test_error() {
 
 ensure_processRunning() {
     # report_test_ok "$2"
-    if pgrep "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
+    if pgrep -f "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
 }
 
 ### tests
 
 ## nginx is installed but not running
 isInstalled nginx && ensure_processRunning nginx "nginx is running"
-ensure_processRunning cron "cron is running"
-ensure_processRunning vnstatd "vnstatd is running"
+ensure_processRunning /usr/sbin/cron "cron is running"
+ensure_processRunning /usr/sbin/vnstatd "vnstatd is running"
 ensure_processRunning zabbix_agentd "zabbix_agentd is running"
 isInstalled puppet-agent && ensure_processRunning puppet "puppet agent is running"
 
