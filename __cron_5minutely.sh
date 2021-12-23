@@ -2,6 +2,16 @@
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source "$CWD/inc/shared.sh"
 
+## parse parameters
+optstring=":v"
+verbose=
+while getopts ${optstring} arg; do
+  case "${arg}" in
+    v) verbose=1 ;;
+  esac
+done
+
+
 mainpid=$$
 (sleep 1m; kill $mainpid) &
 watchdogpid=$!
@@ -15,6 +25,7 @@ report_test_ok() {
     local details="$2"
     test -z $2 && details="-"
     test -e /opt/coadmin-peer/tools/report_test.js && {
+        test -z $verbose || echo "✅ $id "
         node /opt/coadmin-peer/tools/report_test.js --project 'system' --group 'system' --id "$id" --result "ok" --details "$details"
     }
 }
@@ -24,12 +35,13 @@ report_test_error() {
     local details="$2"
     test -z $2 && details="-"
     test -e /opt/coadmin-peer/tools/report_test.js && {
+        test -z $verbose || echo "❌ $id"
         node /opt/coadmin-peer/tools/report_test.js --project 'system' --group 'system' --id "$id" --result "error" --details "$details"
     }
 }
 
 ensure_processRunning() {
-    report_test_ok "$2"
+    # report_test_ok "$2"
     if pgrep "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
 }
 
