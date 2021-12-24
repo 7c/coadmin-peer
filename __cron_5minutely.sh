@@ -49,8 +49,8 @@ ensure_processRunning() {
 
 ## nginx is installed but not running
 isInstalled nginx && ensure_processRunning nginx "nginx is running"
-ensure_processRunning /usr/sbin/cron "cron is running"
-ensure_processRunning /usr/sbin/vnstatd "vnstatd is running"
+ensure_processRunning cron "cron is running"
+ensure_processRunning vnstatd "vnstatd is running"
 ensure_processRunning zabbix_agentd "zabbix_agentd is running"
 isInstalled puppet-agent && ensure_processRunning puppet "puppet agent is running"
 
