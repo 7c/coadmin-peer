@@ -42,7 +42,7 @@ report_test_error() {
 
 ensure_processRunning() {
     # report_test_ok "$2"
-    if pgrep -f "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
+    if pgrep -x "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
 }
 
 ### tests
