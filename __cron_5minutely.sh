@@ -53,7 +53,7 @@ ensure_processRunning cron "cron is running"
 ensure_processRunning vnstatd "vnstatd is running"
 
 
-hostname | grep -q zabbix2.vpn1.com || {
+hostname | grep -q zabbix.vpn1.com || {
     ensure_processRunning zabbix_agentd "zabbix_agentd is running"
 }
 
