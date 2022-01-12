@@ -15,6 +15,16 @@ done
 mainpid=$$
 (sleep 1m; kill $mainpid) &
 watchdogpid=$!
+
+pm2exists() {
+    pm2 describe "$1" >/dev/null 2>&1
+}
+
+pm2running() {
+
+    pm2 describe "$1" | grep status | grep -q online >/dev/null 2>&1
+}
+
 bye() {
     echo "."
     kill -9 $watchdogpid
@@ -74,5 +84,24 @@ isInstalled puppet-agent && {
     ## sync run with errors
     grep -A 10 event "$statedir/last_run_summary.yaml" | grep 'failure:' | grep -v 'failure: 0' -q && report_test_error "recent puppet sync succeed"
 }
+
+
+## make sure qboss-client is running where it is installed
+test -e /opt/qboss-client && {
+    if pm2exists "qboss-client"; then
+        report_test_ok "qboss-client is running"
+    else
+        report_test_error "qboss-client is running"
+    fi
+}
+
+
+## timezone should be utc everywhere
+if date | grep -q UTC; then
+    report_test_ok "timezone is utc"
+else
+    report_test_error "timezone is utc"
+fi
+
 
 bye
