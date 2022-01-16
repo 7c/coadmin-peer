@@ -104,4 +104,12 @@ else
 fi
 
 
+## test time off ness
+if node tools/ntp-time.js >/dev/null; then
+    report_test_ok "time is accurate"
+else
+    report_test_error "time is accurate"
+fi
+
+
 bye
