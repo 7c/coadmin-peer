@@ -112,4 +112,13 @@ else
 fi
 
 
+## do we have another root user other than root:
+if [ $(getent passwd 0| wc -l) -eq "1" ]; then
+    report_test_ok "single root user"
+else
+    report_test_error "single root user"
+fi
+
+
+
 bye
