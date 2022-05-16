@@ -11,7 +11,6 @@ const vars = require('./vars')
 const argv = require('minimist')(process.argv.slice(2))
 
 function bi(fields, tags = {}) {
-    
     if (Object.keys(fields).length > 0) {
         if (isLocal()) {
             console.log(chalk.inverse('bi:'), metrix.line('coadmin_peer', tags, fields))
@@ -139,9 +138,23 @@ function connectSocketIOServer(config,silent=false) {
 }
 
 
+function readJsonOrDelete(fn) {
+    try {return JSON.parse(fs.readFileSync(fn,'utf8'))}catch(err) {}
+    // unlink file if failed to parse
+    try {fs.unlinkSync(fn)}catch(_) {}
+    return false
+}
+
+function unlinkSilently(fn) {
+    try {fs.unlinkSync(fn)}catch(_err) {}
+}
+
 module.exports = {
     connectSocketIOServer,
     delConfig,
     storeConfig,
-    isDevServer
+    isDevServer,
+    
+    readJsonOrDelete,
+    unlinkSilently
 }

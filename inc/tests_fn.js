@@ -6,7 +6,7 @@ const path = require('path')
 const lsbRelease = require('./lsb_release.js')
 const vars = require('./vars.js')
 const package = require('./../package.json')
-const { isDevServer } = require('./shared.js')
+const { isDevServer, readJsonOrDelete, unlinkSilently } = require('./shared.js')
 
 function readTestresultFiles(theFolder) {
     return new Promise(async function (resolve,reject) {
@@ -29,17 +29,6 @@ function readTestresultFiles(theFolder) {
     })
 }
 
-
-function readJsonOrDelete(fn) {
-    try {return JSON.parse(fs.readFileSync(fn,'utf8'))}catch(err) {}
-    // unlink file if failed to parse
-    try {fs.unlinkSync(fn)}catch(_) {}
-    return false
-}
-
-function unlinkSilently(fn) {
-    try {fs.unlinkSync(fn)}catch(_err) {}
-}
 
 module.exports = async function (clientId,callback)  {
     // responsible to read all service files from coadmin folder and send them to

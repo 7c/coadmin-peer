@@ -2,13 +2,10 @@ const chalk = require('chalk')
 const os = require('os')
 const fs = require('fs')
 const path = require('path')
-// cp { execSync } = require('child_process');
-const lsbRelease = require('./lsb_release.js')
 const vars = require('./vars.js')
-const package = require('./../package.json')
-const { readJsonOrDelete, unlinkSilently } = require('./shared.js')
+const { isDevServer, readJsonOrDelete, unlinkSilently } = require('./shared.js')
 
-function readServiceFiles(theFolder) {
+function readLogFiles(theFolder) {
     return new Promise(async function (resolve,reject) {
         try {
             fs.readdir(theFolder, function(err, items) {
@@ -17,7 +14,7 @@ function readServiceFiles(theFolder) {
                 let selected_files = []
                 for (var i=0; i<items.length; i++) {
                     let fn = items[i]
-                    if (fn.search(/\.coadmin_service$/)>0) {
+                    if (fn.search(/\.coadmin_log$/)>0) {
                         selected_files.push(path.join(theFolder,fn))
                     }
                 }
@@ -29,14 +26,13 @@ function readServiceFiles(theFolder) {
     })
 }
 
-
 module.exports = async function (clientId,callback)  {
     // responsible to read all service files from coadmin folder and send them to
     // server, server will process them properly
-    console.log(chalk.inverse('services_fn'),clientId)
-    let service_files = await readServiceFiles(vars.config.myFolder)
+    console.log(chalk.inverse('logs_fn'),clientId)
+    let service_files = await readLogFiles(vars.config.myFolder)
     let data = []
-    console.log(`processing ${service_files.length} service files`)
+    console.log(`processing ${service_files.length} log files`)
     for(let sf of service_files) {
         let json = readJsonOrDelete(sf)
         if (!json) continue

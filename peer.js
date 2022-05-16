@@ -12,6 +12,7 @@ let config
 // import commands we support
 const stats_fn = require('./inc/stats_fn.js')
 const services_fn = require('./inc/services_fn.js')
+const logs_fn = require('./inc/logs_fn.js')
 const startstats_fn = require('./inc/startstats_fn.js')
 const tests_fn = require('./inc/tests_fn.js')
 const autoupdate_fn = require('./inc/autoupdate_fn.js')
@@ -29,7 +30,7 @@ async function start() {
         server.on('services',services_fn)     // will be asked peridically from server
         server.on('tests',tests_fn)           // will be asked peridically from server
         server.on('autoupdate',autoupdate_fn) // will be asked from server
-        
+        server.on('logs',logs_fn)     // will be asked peridically from server
         
         if (argv.bootstrap) {
             while(!server.authenticated) {

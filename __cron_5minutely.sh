@@ -130,4 +130,11 @@ test -d /var/log/nginx && {
     fi
 }
 
+
+## search for geoip legacy stuff
+# IFS=$'\n'
+# for i in $(find /etc /var /usr -type f -name 'GeoIP.conf'); do
+#   echo "tester: $i"
+# done
+
 bye
