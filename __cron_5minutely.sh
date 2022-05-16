@@ -134,7 +134,7 @@ test -d /var/log/nginx && {
 ## search for geoip legacy stuff
 IFS=$'\n'
 for i in $(find /etc /var /usr -type f -name 'GeoIP.conf'); do
-  pi=$(egrep '^ProductIds' "$i")
+  pi=$(egrep '^(ProductIds|EditionIDs)' "$i")
   node tools/log.js "$pi"
 done
 
