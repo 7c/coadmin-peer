@@ -17,44 +17,9 @@ mainpid=$$
 (sleep 1m; kill $mainpid) &
 watchdogpid=$!
 
-pm2exists() {
-    pm2 describe "$1" >/dev/null 2>&1
-}
 
-pm2running() {
 
-    pm2 describe "$1" | grep status | grep -q online >/dev/null 2>&1
-}
 
-bye() {
-    echo "."
-    kill -9 $watchdogpid
-}
-
-report_test_ok() { 
-    local id="$1"
-    local details="$2"
-    test -z $2 && details="-"
-    test -e /opt/coadmin-peer/tools/report_test.js && {
-        test -z $verbose || echo "✅ $id "
-        node /opt/coadmin-peer/tools/report_test.js --project 'system' --group 'system' --id "$id" --result "ok" --details "$details"
-    }
-}
-
-report_test_error() {
-    local id="$1"
-    local details="$2"
-    test -z $2 && details="-"
-    test -e /opt/coadmin-peer/tools/report_test.js && {
-        test -z $verbose || echo "❌ $id"
-        node /opt/coadmin-peer/tools/report_test.js --project 'system' --group 'system' --id "$id" --result "error" --details "$details"
-    }
-}
-
-ensure_processRunning() {
-    # report_test_ok "$2"
-    if pgrep -x "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
-}
 
 ### tests
 
@@ -120,14 +85,7 @@ else
     report_test_error "single root user"
 fi
 
-## nginx 'Too many open files' error detection
-test -d /var/log/nginx && {
-    ago5=$(date --date='5 minutes ago' +"%Y/%m/%d %H:%M")
-    if tail /var/log/nginx/*log -n 1000 | grep "$ago5" | grep -i -q 'Too many open files'; then
-        report_test_error "nginx too many open files"
-    else
-        report_test_ok "nginx too many open files"
-    fi
-}
+## run checks
+find ./checks -name 'check-*.sh' -type f -group root -executable -print -exec {} \;
 
-bye
+bye $watchdogpid

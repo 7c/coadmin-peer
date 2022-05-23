@@ -10,6 +10,26 @@ is_interactive() { test -t 0; }
 ## check_config
 export reset=`tput sgr0`
 
+report_test_ok() { 
+    local id="$1"
+    local details="$2"
+    test -z $2 && details="-"
+    test -e /opt/coadmin-peer/tools/report_test.js && {
+        test -z $verbose || echo "✅ $id "
+        node /opt/coadmin-peer/tools/report_test.js --project 'system' --group 'system' --id "$id" --result "ok" --details "$details"
+    }
+}
+
+report_test_error() {
+    local id="$1"
+    local details="$2"
+    test -z $2 && details="-"
+    test -e /opt/coadmin-peer/tools/report_test.js && {
+        test -z $verbose || echo "❌ $id"
+        node /opt/coadmin-peer/tools/report_test.js --project 'system' --group 'system' --id "$id" --result "error" --details "$details"
+    }
+}
+
 myip() {
     test -z $myip && myip=$(dig +short myip.opendns.com @resolver1.opendns.com)
     test -z $myip && myip=$(curl https://ip8.com/ip)
@@ -124,6 +144,28 @@ check_config() {
 	# out "Configuration '$2' has not changed yet"
 	return 1
 	fi
+}
+
+
+pm2exists() {
+    pm2 describe "$1" >/dev/null 2>&1
+}
+
+pm2running() {
+
+    pm2 describe "$1" | grep status | grep -q online >/dev/null 2>&1
+}
+
+bye() {
+    echo "bye"
+    kill -9 $watchdogpid
+    test -z $1 || kill -9 $1
+}
+
+
+ensure_processRunning() {
+    # report_test_ok "$2"
+    if pgrep -x "$1" >/dev/null; then report_test_ok "$2"; else report_test_error "$2"; fi
 }
 
 logg "."
