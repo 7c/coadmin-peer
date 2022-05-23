@@ -86,6 +86,11 @@ else
 fi
 
 ## run checks
-find ./checks -name 'check-*.sh' -type f -group root -executable -print -exec {} \;
+IFS=$'\n'
+for check in $(find "$CWD/checks" -name 'check-*.sh' -type f -group root -executable); do
+green "check >$check\n"
+source "$check"
+done
+#  -print -exec {} \;
 
 bye $watchdogpid
