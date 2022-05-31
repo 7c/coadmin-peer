@@ -97,7 +97,9 @@ function connectSocketIOServer(config,silent=false) {
     return new Promise(async function (resolve, reject) {
         if (!silent) console.log(chalk.green(`connecting socket.io server at ${config.socketserver}`))
         const io = require('socket.io-client')
+        
         const socket = io.connect(config.socketserver, { transports: ['websocket'],upgrade: true,timeout:60000 })
+        
         socket.authenticated=false
         socket.on('error', (err) => {
             bi({io_error:1})

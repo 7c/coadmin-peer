@@ -42,7 +42,7 @@ isInstalled puppet-agent && ensure_processRunning puppet "puppet agent is runnin
 ## detect puppet agent fail scenarios
 isInstalled puppet-agent && {
     statedir='/opt/puppetlabs/puppet/cache/state'
-    test -d "$statedir" || statedir=$(/opt/puppetlabs/bin/puppet puppet agent --configprint statedir)
+    test -d "$statedir" || statedir=$(/opt/puppetlabs/bin/puppet agent --configprint statedir)
     logg "puppet statedir=$statedir"
     ## sync did not run at all
     report_test_ok "recent puppet sync succeed"
