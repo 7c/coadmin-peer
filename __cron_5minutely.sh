@@ -46,6 +46,7 @@ isInstalled puppet-agent && {
     logg "puppet statedir=$statedir"
     ## sync did not run at all
     report_test_ok "recent puppet sync succeed"
+    ## puppet6 only - need to support puppet7
     grep -A 10 event "$statedir/last_run_summary.yaml" | grep 'total: 0$' -q && report_test_error "recent puppet sync succeed"
     ## sync run with errors
     grep -A 10 event "$statedir/last_run_summary.yaml" | grep 'failure:' | grep -v 'failure: 0' -q && report_test_error "recent puppet sync succeed"
@@ -85,12 +86,22 @@ else
     report_test_error "single root user"
 fi
 
-## run checks
+## run checks inside coadmin-peer/checks folder
 IFS=$'\n'
 for check in $(find "$CWD/checks" -name 'check-*.sh' -type f -group root -executable); do
 green "check >$check\n"
 source "$check"
 done
 #  -print -exec {} \;
+
+
+## run checks inside /var/coadmin/checks folder
+test -d "/var/coadmin/checks" && {
+    IFS=$'\n'
+    for check in $(find "/var/coadmin/checks" -name 'check-*.sh' -type f -group root -executable); do
+    green "check >$check\n"
+    source "$check"
+    done
+}
 
 bye $watchdogpid
