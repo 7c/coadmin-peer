@@ -1,6 +1,6 @@
 {
   "name": "coadmin-peer",
-  "version": "1.0.59",
+  "version": "1.0.60",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,7 @@
     "chalk": "^4.1.2",
     "crc-32": "^1.2.0",
     "debug": "^4.3.2",
+    "lefolder": "git+https://github.com/7c/lefolder.git",
     "minimist": "^1.2.5",
     "mybase": "^1.0.27",
     "ntp-client": "^0.5.3",
