@@ -81,3 +81,8 @@ setup_cron_5minutely() {
 setup_cron_5minutely
 
 
+## run 5minutely - in case this server does not have 5 min runs
+./__cron_5minutely.sh
+
+
+
