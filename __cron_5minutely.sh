@@ -104,4 +104,8 @@ test -d "/var/coadmin/checks" && {
     done
 }
 
+
+## run 5minutely - in case this server does not have 5 min runs
+./__cron_5minutely.sh
+
 bye $watchdogpid
