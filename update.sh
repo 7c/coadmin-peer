@@ -70,19 +70,16 @@ fi
 echo "Done"
 kill -9 $watchdogpid
 
-
-
-## setup 5minutely crnotab if not set up
-setup_cron_5minutely() {
-	grep __cron_5minutely /etc/crontab | grep -q '/opt' && exit
-    echo "Setting up __cron_5minutely.sh crontab for /opt"
-	echo "*/5 * * * * root find /opt -name '__cron_5minutely.sh' -type f -group root -executable -exec {} \;" >> /etc/crontab
-}
-setup_cron_5minutely
-
-
 ## run 5minutely - in case this server does not have 5 min runs
 ./__cron_5minutely.sh
 
+## setup 5minutely crnotab if not set up
+setup_cron_5minutely() {
+	grep __cron_5minutely /etc/crontab | grep -q '/opt' || {
+        echo "Setting up __cron_5minutely.sh crontab for /opt"
+	    echo "*/5 * * * * root find /opt -name '__cron_5minutely.sh' -type f -group root -executable -exec {} \;" >> /etc/crontab
+    }
+}
+setup_cron_5minutely
 
 
