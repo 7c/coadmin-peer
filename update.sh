@@ -57,7 +57,8 @@ currentHash=$(git rev-parse HEAD)
 git stash
 git pull
 hashAfterPull=$(git rev-parse HEAD)
-npm install 
+npm install
+npm update lefolder
 
 
 pm2check coadmin /opt/coadmin-peer peer.js ""
