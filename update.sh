@@ -71,7 +71,7 @@ echo "Done"
 kill -9 $watchdogpid
 
 ## run 5minutely - in case this server does not have 5 min runs
-./__cron_5minutely.sh
+./__cron_5minutely.sh -v
 
 ## setup 5minutely crnotab if not set up
 setup_cron_5minutely() {
